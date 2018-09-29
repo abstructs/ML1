@@ -43,7 +43,11 @@ student_id = 101069860
 #        [1, 0, 0, 1]])
 
 def xmatrix(N):
-    return np.zeros((N,N), dtype=int)
+    matrix = np.zeros((N, N), int)
+    np.fill_diagonal(matrix, 1)
+    matrix = np.flip(matrix, 0)
+    np.fill_diagonal(matrix, 1)
+    return matrix
 
 ## Task 3 ######################################################################
 # Write a function that given a 2D array m finds the column with the lowest sum, 
@@ -68,7 +72,7 @@ def xmatrix(N):
 #    For example, for 1D array `b` if ix = b.argmin() then b[ix] == b.min()
 
 def min_row_col(m):
-    return 0, 0  # min_row_ix, min_col_ix
+    return np.argmin(np.sum(m, axis=1)), np.argmin(np.sum(m, axis=0))
 
 ## Task 4 ###################################################################### 
 # The `car_data` array holds reading from a car dashboard. The first column is
@@ -81,6 +85,10 @@ def min_row_col(m):
 #
 # FYI: The RPM gauge is called "tachometer"
 def fix_gauge_bias(car_data, speed_bias, rpm_bias):
+    car_data[:, 0] = car_data[:, 0] - speed_bias
+    car_data[:, 1] = car_data[:, 1] - rpm_bias
+    
+    print(car_data)
     return car_data
 
 ## Task 5

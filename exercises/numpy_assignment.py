@@ -88,7 +88,6 @@ def fix_gauge_bias(car_data, speed_bias, rpm_bias):
     car_data[:, 0] = car_data[:, 0] - speed_bias
     car_data[:, 1] = car_data[:, 1] - rpm_bias
     
-    print(car_data)
     return car_data
 
 ## Task 5
@@ -100,7 +99,7 @@ def fix_gauge_bias(car_data, speed_bias, rpm_bias):
 #
 # Write a function that detects if the car switched gears and returns True if it
 # did and False otherwise. Use the following assumptions:
-#  - The car from which this data originates has simple gears with constatant
+# The car from which this data originates has simple gears with constant
 #    ratios as described above.
 #  - RPMs/(car speed) ratios for different gears differ by at least 10%. For
 #    example ratios of 75 and 95 are definitely from different gears, while 85.1
@@ -115,7 +114,9 @@ def fix_gauge_bias(car_data, speed_bias, rpm_bias):
 # such as continuously variable transmission (CVT) and the hybrid transmission
 # in Toyota Prius.
 def was_gear_switched(car_data):
-    return False
+    ratios = car_data[:, 1] / car_data[:, 0]
+    differences = np.abs(np.diff(ratios))
+    return np.isin(True, differences >= 10)
 
 ## Task 6 (bonus) ##############################################################
 # With the same data and assumptions as Task 3 count how many different gears
@@ -129,7 +130,10 @@ def was_gear_switched(car_data):
 # HINT: take a look at np.unique() and array sort() functions, they might be
 # useful (depending on the strategy you choose).
 def count_gears_used(car_data):
-    return 1
+    ratios = car_data[:, 1] / car_data[:, 0]
+    differences = np.abs(np.diff(ratios))
+    differentGears = np.unique(differences) >= 10
+    return differentGears.sum() + 1
 
     
 
@@ -227,14 +231,14 @@ if __name__ == '__main__':
                         [  35.4, 3136 ]])
     s_bias = 1.8
     r_bias = 280
-    adjusted = fix_gauge_bias(gauges, s_bias, r_bias)
+    adjusted = fix_gauge_bias(gauges.copy(), s_bias, r_bias)
     d = gauges - adjusted
     print(OUT, 'fix_gauge_bias(gauges, ...)[0] = %s' % (adjusted[0],) )
     if adjusted.shape == gauges.shape and np.allclose(d[0], [s_bias, r_bias]):
         print(OK)
         total_score += 25
     else:
-        print(ERR, 'expected [%d, %d]' % (s_bias, r_bias))
+        print(ERR, 'expected [%0.2f, %d]' % (gauges[0, 0] - s_bias, gauges[0, 1] - r_bias))
 
     print()
     print('####### Task5: was there a gear shift #############################')

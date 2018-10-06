@@ -134,9 +134,8 @@ def count_gears_used(car_data):
     differences = np.abs(np.diff(ratios))
     differentGears = np.unique(differences) >= 10
     return differentGears.sum() + 1
-
+2
     
-
 if __name__ == '__main__':
     ## Your own tests, feel free to do whatever you want here as long as it doesn't crash
     # print('Task 1: %s', min_row_col(np.array([0])))

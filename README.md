@@ -66,5 +66,4 @@ This link skips the first video in the playlist because it talks about installat
    * Exercise: [exercises/week6_lab.ipynb](exercises/week6_lab.ipynb)
  * Lecture - Oct 11
    * [Slides](lectures/06_week.ipynb)
-   
   

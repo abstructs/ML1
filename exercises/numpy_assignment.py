@@ -131,7 +131,7 @@ def was_gear_switched(car_data):
 # useful (depending on the strategy you choose).
 def count_gears_used(car_data):
     ratios = car_data[:, 1] / car_data[:, 0]
-    differences = np.abs(np.diff(ratios))
+    differences = np.abs(np.diff(np.sort(ratios)))
     differentGears = np.unique(differences) >= 10
     return differentGears.sum() + 1
 2

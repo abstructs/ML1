@@ -124,32 +124,43 @@ def merge(left, right, left_on, right_on):
     # add left table to groups
     for row in left:
         group_name = row[left_on]
-        groups[group_name] = [row]
+        groups[group_name] = row
 
     # add right table to groups
     for row in right:
         group_name = row[right_on]
         if group_name in groups:
-            groups[group_name] += [row]
-        else:
-            groups[group_name] = [[row]]
+            merged.append(groups[group_name] + row)
+            # merged.append()
+            # groups[group_name] += row
+        # else:
+        #     groups[group_name] = [[row]]
 
     # join left table on right table
-    for key in groups:
-        group_list = groups[key]
-        left_group = groups[key][0]
-        for group in group_list[1:]:
-            merged.append(left_group + group)
+    # for key in groups:
+    #     group_list = groups[key]
+    #     left_group = groups[key][0]
+    #     for group in group_list[1:]:
+    #         merged.append(left_group + group)
 
-    return merged
+    return list(merged)
+
+    # return merged
 
 # if __name__ == "__main__":
-#     tbl1 = [[1, 'A'], [2, 'B'], [3, 'C']]
-#     tbl2 = [['A', 2004], ['B', 2008], ['C', 2012], ['B', 2014]]
+#     left = [[1, 'A'], [2, 'B'], [3, 'C']]
+#     right = [['A', 2004], ['B', 2008], ['C', 2012], ['B', 2014]]
+#     merged =   [[1, 'A', 'A', 2004],
+#                 [2, 'B', 'B', 2008],
+#                 [2, 'B', 'B', 2014],
+#                 [3, 'C', 'C', 2012]]
+
+#     # tbl1 = [[1, 'A'], [2, 'B'], [3, 'C']]
+#     # tbl2 = [['A', 2004], ['B', 2008], ['C', 2012], ['B', 2014]]
 #     left_on = 1
 #     right_on = 0
 
-#     print(merge(tbl1, tbl2, left_on, right_on))
+#     print(merge(left, right, left_on, right_on))
 #     exit()
 
 
